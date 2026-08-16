@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Employee Web</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background: #070a0b;
+    color: #d5dbdc;
+    font-family: "Courier New", monospace;
+}
+
+header {
+    background: #0c1011;
+    border-bottom: 1px solid #343b3d;
+
+    padding: 18px 24px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 23px;
+    font-weight: bold;
+    letter-spacing: 4px;
+}
+
+.network {
+    color: #697274;
+    font-size: 9px;
+    letter-spacing: 1px;
+}
+
+main {
+    width: min(900px, 92%);
+    margin: 40px auto;
+}
+
+.panel {
+    background: #0b0f10;
+    border: 1px solid #30383a;
+    padding: 25px;
+    margin-bottom: 20px;
+}
+
+.label {
+    color: #6f797b;
+    font-size: 9px;
+    letter-spacing: 2px;
+    margin-bottom: 15px;
+}
+
+h1 {
+    font-size: 23px;
+    font-weight: normal;
+    letter-spacing: 2px;
+    margin: 0 0 15px;
+}
+
+h2 {
+    font-size: 14px;
+    font-weight: normal;
+    letter-spacing: 1px;
+    color: #c3c9ca;
+}
+
+p {
+    color: #a4adaf;
+    font-size: 12px;
+    line-height: 1.8;
+}
+
+.hidden {
+    display: none;
+}
+
+.keypad-box {
+    width: 280px;
+    max-width: 100%;
+    margin: 30px auto 10px;
+}
+
+.display {
+    height: 55px;
+
+    border: 1px solid #424a4c;
+    background: #050707;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    font-size: 22px;
+    letter-spacing: 8px;
+
+    margin-bottom: 12px;
+}
+
+.keypad {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 7px;
+}
+
+.key {
+    height: 55px;
+
+    background: #0d1213;
+    border: 1px solid #3b4345;
+
+    color: #c8ced0;
+
+    font-family: inherit;
+    font-size: 15px;
+
+    cursor: pointer;
+}
+
+.key:hover {
+    background: #171d1e;
+}
+
+.key:active {
+    background: #202729;
+}
+
+.clear {
+    grid-column: span 2;
+}
+
+.enter {
+    background: #111718;
+}
+
+.message {
+    border: 1px solid #3a4244;
+    background: #080c0d;
+
+    padding: 20px;
+
+    margin-top: 20px;
+}
+
+.success {
+    color: #c8d0d1;
+}
+
+.error {
+    color: #8b6f6f;
+    min-height: 20px;
+    margin-top: 12px;
+    text-align: center;
+    font-size: 10px;
+}
+
+.location {
+    margin-top: 20px;
+
+    border: 1px dashed #515a5c;
+    background: #0d1213;
+
+    padding: 20px;
+}
+
+.location-title {
+    color: #737d7f;
+    font-size: 9px;
+    letter-spacing: 2px;
+    margin-bottom: 12px;
+}
+
+.location-text {
+    color: #d0d5d6;
+    font-size: 13px;
+    line-height: 1.8;
+}
+
+.locked {
+    color: #606a6c;
+    font-size: 10px;
+    margin-top: 10px;
+}
+
+.divider {
+    border: none;
+    border-top: 1px solid #202627;
+    margin: 25px 0;
+}
+
+.warning {
+    border-left: 2px solid #555e60;
+    padding-left: 15px;
+
+    color: #8e9799;
+
+    font-size: 10px;
+    line-height: 1.8;
+
+    margin-top: 20px;
+}
+
+footer {
+    text-align: center;
+
+    color: #424a4c;
+
+    font-size: 9px;
+    letter-spacing: 1px;
+
+    padding: 30px;
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+
+<div class="logo">
+EMPLOYEE WEB
+</div>
+
+<div class="network">
+H.E.E. INTERNAL NETWORK
+</div>
+
+</header>
+
+
+<main>
+
+
+<!-- VISITOR -->
+
+<section class="panel" id="visitor">
+
+<div class="label">
+EMPLOYEE ACCOUNT
+</div>
+
+<h1>
+WELCOME
+</h1>
+
+<p>
+Your account has been recognized by the H.E.E.
+internal network.
+</p>
+
+<p>
+Membership status:
+<strong>REGISTERED</strong>
+</p>
+
+<div class="warning">
+
+Seven account verification stages are currently
+available.
+
+<br><br>
+
+Complete each stage to continue.
+
+</div>
+
+</section>
+
+
+
+<!-- CURRENT STAGE -->
+
+<section class="panel">
+
+<div class="label">
+ACCOUNT VERIFICATION
+</div>
+
+<h2 id="stageTitle">
+STATUS 001 — OBSERVER
+</h2>
+
+<p id="stageDescription">
+Enter the verification code supplied through your
+HEE correspondence.
+</p>
+
+
+<div class="keypad-box">
+
+<div class="display" id="display">
+----
+</div>
+
+
+<div class="keypad">
+
+<button class="key" onclick="press(1)">1</button>
+<button class="key" onclick="press(2)">2</button>
+<button class="key" onclick="press(3)">3</button>
+
+<button class="key" onclick="press(4)">4</button>
+<button class="key" onclick="press(5)">5</button>
+<button class="key" onclick="press(6)">6</button>
+
+<button class="key" onclick="press(7)">7</button>
+<button class="key" onclick="press(8)">8</button>
+<button class="key" onclick="press(9)">9</button>
+
+<button class="key clear" onclick="clearCode()">CLEAR</button>
+<button class="key" onclick="press(0)">0</button>
+
+</div>
+
+<br>
+
+<button class="key enter" style="width:100%;" onclick="checkCode()">
+VERIFY
+</button>
+
+<div class="error" id="error"></div>
+
+</div>
+
+</section>
+
+
+
+<!-- UNLOCKED INFORMATION -->
+
+<section class="panel hidden" id="unlocked">
+
+<div class="label">
+ACCESS GRANTED
+</div>
+
+<h1 id="unlockedTitle">
+</h1>
+
+<div class="message">
+
+<p id="unlockedText">
+</p>
+
+</div>
+
+
+<div class="location">
+
+<div class="location-title">
+NEXT H.E.E. DELIVERY LOCATION
+</div>
+
+<div class="location-text" id="locationText">
+</div>
+
+</div>
+
+</section>
+
+
+
+<!-- FINAL -->
+
+<section class="panel hidden" id="final">
+
+<div class="label">
+SYSTEM RECORD
+</div>
+
+<h1>
+H.E.E. INTERNAL DESIGNATION
+</h1>
+
+<p>
+You have reached the end of the available employee
+verification sequence.
+</p>
+
+<div class="message">
+
+<p>
+<strong>PUBLIC DESIGNATION</strong>
+</p>
+
+<p>
+Health, Environment & Engineering
+</p>
+
+<hr class="divider">
+
+<p>
+<strong>INTERNAL DESIGNATION</strong>
+</p>
+
+<p>
+Human Expendability Evaluation
+</p>
+
+</div>
+
+<div class="warning">
+
+HEE has not established the origin of the Factory.
+
+<br><br>
+
+HEE has not established its purpose.
+
+<br><br>
+
+HEE has not established why personnel experience
+behavioral changes within it.
+
+<br><br>
+
+The questions remain unanswered.
+
+</div>
+
+</section>
+
+
+</main>
+
+
+<footer>
+
+H.E.E. INTERNAL NETWORK
+
+<br><br>
+
+EMPLOYEE WEB
+
+</footer>
+
+
+
+<script>
+
+
+const stages = [
+
+{
+
+title: "STATUS 001 — OBSERVER",
+
+password: "5827",
+
+text:
+"Your account has been successfully verified. Observer clearance has been granted. HEE records regarding restricted operations are now available.",
+
+location:
+"Underneath a rock outside your house"
+
+},
+
+{
+
+title: "STATUS 002 — RESEARCH",
+
+password: "9897",
+
+text:
+"Research clearance granted. HEE has confirmed the existence of a restricted location referred to internally as THE FACTORY. Its origin remains undetermined.",
+
+location:
+"Inside your home underneath the bed"
+
+},
+
+{
+
+title: "STATUS 003 — FIELD",
+
+password: "6767",
+
+text:
+"Field clearance granted. Personnel have been assigned to Factory operations. Not all personnel assigned to the Factory return to standard duty.",
+
+location:
+"That weird frickin hole you have outside"
+
+},
+
+{
+
+title: "STATUS 004 — INTERNAL",
+
+password: "1221",
+
+text:
+"Internal clearance granted. Following personnel deployment, Factory inventory repeatedly returns to required quantities. HEE has been unable to determine how.",
+
+location:
+"Inside your shed"
+
+},
+
+{
+
+title: "STATUS 005 — ARCHIVE",
+
+password: "8008",
+
+text:
+"Archive clearance granted. Multiple investigations into the Factory have failed to establish its creator, purpose, or method of production. HEE has chosen to continue operations regardless.",
+
+location:
+"Above your sink"
+
+},
+
+{
+
+title: "STATUS 006 — MANAGEMENT",
+
+password: "1782",
+
+text:
+"Management clearance granted. A recurring behavioral response has been documented among personnel exposed to the Factory. Persistent smiling and unexplained laughter have been recorded.",
+
+location:
+"Inside your home under the sink"
+
+},
+
+{
+
+title: "STATUS 007 — SYSTEM",
+
+password: "2464",
+
+text:
+"System clearance granted. HEE does not need to understand the Factory. The Factory produces. HEE receives. Personnel are replaceable.",
+
+location:
+"Underneath that big bucket with snacks. Someone took a few. Sorry."
+
+}
+
+];
+
+
+let stageIndex =
+parseInt(localStorage.getItem("heeStage") || "0");
+
+let entered = "";
+
+
+
+function press(number) {
+
+if (entered.length >= 4) {
+return;
+}
+
+entered += number;
+
+updateDisplay();
+
+}
+
+
+
+function updateDisplay() {
+
+let output = "";
+
+for (let i = 0; i < 4; i++) {
+
+if (i < entered.length) {
+output += "•";
+}
+
+else {
+output += "-";
+}
+
+if (i < 3) {
+output += " ";
+}
+
+}
+
+document.getElementById("display").textContent = output;
+
+}
+
+
+
+function clearCode() {
+
+entered = "";
+
+updateDisplay();
+
+document.getElementById("error").textContent = "";
+
+}
+
+
+
+function checkCode() {
+
+const current = stages[stageIndex];
+
+if (entered === current.password) {
+
+unlockStage();
+
+}
+
+else {
+
+document.getElementById("error").textContent =
+"INVALID VERIFICATION CODE.";
+
+entered = "";
+
+updateDisplay();
+
+}
+
+}
+
+
+
+function unlockStage() {
+
+const current = stages[stageIndex];
+
+document.getElementById("error").textContent = "";
+
+document.getElementById("unlocked").classList.remove("hidden");
+
+document.getElementById("unlockedTitle").textContent =
+current.title;
+
+document.getElementById("unlockedText").textContent =
+current.text;
+
+document.getElementById("locationText").textContent =
+current.location;
+
+
+/* SAVE PROGRESS */
+
+stageIndex++;
+
+localStorage.setItem(
+"heeStage",
+stageIndex
+);
+
+
+/* FINAL STAGE */
+
+if (stageIndex >= stages.length) {
+
+document.getElementById("final").classList.remove("hidden");
+
+document.getElementById("stageTitle").textContent =
+"VERIFICATION COMPLETE";
+
+document.getElementById("stageDescription").textContent =
+"All available HEE account records have been accessed.";
+
+document.querySelector(".keypad-box").style.display =
+"none";
+
+return;
+
+}
+
+
+/* PREPARE NEXT STAGE */
+
+document.getElementById("stageTitle").textContent =
+stages[stageIndex].title;
+
+document.getElementById("stageDescription").textContent =
+"Enter the verification code supplied through your next HEE correspondence.";
+
+entered = "";
+
+updateDisplay();
+
+window.scrollTo({
+top: document.body.scrollHeight,
+behavior: "smooth"
+});
+
+}
+
+
+
+/* RESTORE PROGRESS */
+
+function restoreProgress() {
+
+if (stageIndex > 0) {
+
+const previous =
+stages[stageIndex - 1];
+
+document.getElementById("unlocked").classList.remove("hidden");
+
+document.getElementById("unlockedTitle").textContent =
+previous.title;
+
+document.getElementById("unlockedText").textContent =
+previous.text;
+
+document.getElementById("locationText").textContent =
+previous.location;
+
+}
+
+
+if (stageIndex >= stages.length) {
+
+document.getElementById("final").classList.remove("hidden");
+
+document.getElementById("stageTitle").textContent =
+"VERIFICATION COMPLETE";
+
+document.getElementById("stageDescription").textContent =
+"All available HEE account records have been accessed.";
+
+document.querySelector(".keypad-box").style.display =
+"none";
+
+}
+
+else {
+
+document.getElementById("stageTitle").textContent =
+stages[stageIndex].title;
+
+}
+
+}
+
+
+restoreProgress();
+
+</script>
+
+</body>
+  </html>
