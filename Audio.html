@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>HEE — Audio Archive</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background: #070a0b;
+            color: #d8dddd;
+            font-family: "Courier New", monospace;
+        }
+
+        header {
+            border-bottom: 1px solid #394143;
+            padding: 18px 25px;
+            background: #0c1011;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: bold;
+            letter-spacing: 5px;
+        }
+
+        .system {
+            color: #788184;
+            font-size: 10px;
+            letter-spacing: 1px;
+        }
+
+        main {
+            width: min(950px, 92%);
+            margin: 45px auto;
+        }
+
+        .panel {
+            background: #0b0f10;
+            border: 1px solid #30383a;
+            padding: 25px;
+            margin-bottom: 20px;
+        }
+
+        .label {
+            color: #737d7f;
+            font-size: 10px;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+        }
+
+        h1 {
+            font-size: 23px;
+            font-weight: normal;
+            letter-spacing: 2px;
+            margin: 0 0 15px;
+        }
+
+        h2 {
+            font-size: 14px;
+            font-weight: normal;
+            color: #c2c9ca;
+            letter-spacing: 1px;
+        }
+
+        p {
+            color: #aeb6b8;
+            line-height: 1.7;
+        }
+
+        .notice {
+            border-left: 2px solid #555f61;
+            padding-left: 15px;
+            color: #929b9d;
+            font-size: 11px;
+            line-height: 1.7;
+        }
+
+        .audio-entry {
+            margin-top: 20px;
+            border: 1px solid #292f31;
+            background: #080c0d;
+            padding: 20px;
+        }
+
+        .audio-header {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+
+            border-bottom: 1px solid #252b2d;
+
+            padding-bottom: 12px;
+            margin-bottom: 15px;
+
+            color: #7b8587;
+            font-size: 10px;
+            letter-spacing: 1px;
+        }
+
+        audio {
+            width: 100%;
+            margin: 15px 0;
+        }
+
+        .audio-placeholder {
+            height: 55px;
+
+            border: 1px dashed #343c3e;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            color: #596365;
+
+            font-size: 10px;
+            letter-spacing: 1px;
+
+            margin: 15px 0;
+        }
+
+        .transcript {
+            margin-top: 18px;
+
+            border: 1px solid #202628;
+
+            background: #090d0e;
+
+            padding: 18px;
+        }
+
+        .transcript-title {
+            color: #687174;
+
+            font-size: 9px;
+
+            letter-spacing: 2px;
+
+            margin-bottom: 15px;
+        }
+
+        .line {
+            margin: 12px 0;
+
+            color: #9da6a8;
+
+            font-size: 11px;
+
+            line-height: 1.7;
+        }
+
+        .speaker {
+            color: #c2c9ca;
+        }
+
+        .static {
+            color: #555e60;
+            letter-spacing: 2px;
+        }
+
+        .redacted {
+            color: #555e60;
+            background: #555e60;
+            user-select: none;
+        }
+
+        .record {
+            margin-top: 20px;
+
+            border: 1px solid #292f31;
+
+            background: #080c0d;
+
+            padding: 18px;
+        }
+
+        .record-line {
+            display: flex;
+
+            justify-content: space-between;
+
+            gap: 20px;
+
+            border-bottom: 1px solid #171d1e;
+
+            padding: 11px 0;
+
+            font-size: 11px;
+        }
+
+        .record-line:last-child {
+            border-bottom: none;
+        }
+
+        .record-line span:first-child {
+            color: #6f797b;
+        }
+
+        .record-line span:last-child {
+            color: #c3c9ca;
+            text-align: right;
+        }
+
+        .warning {
+            margin-top: 20px;
+
+            border-left: 2px solid #596365;
+
+            padding-left: 15px;
+
+            color: #8c9698;
+
+            font-size: 11px;
+
+            line-height: 1.8;
+        }
+
+        footer {
+            text-align: center;
+
+            color: #444d4f;
+
+            font-size: 10px;
+
+            letter-spacing: 1px;
+
+            padding: 30px;
+        }
+
+        @media (max-width: 600px) {
+
+            header {
+                padding: 15px;
+            }
+
+            .logo {
+                font-size: 20px;
+            }
+
+            .system {
+                font-size: 8px;
+            }
+
+            main {
+                margin-top: 25px;
+            }
+
+            .audio-header {
+                display: block;
+            }
+
+            .record-line {
+                display: block;
+            }
+
+            .record-line span:last-child {
+                display: block;
+                text-align: left;
+                margin-top: 5px;
+            }
+        }
+    </style>
+</head>
+
+
+<body>
+
+
+<header>
+
+    <div class="logo">
+        H.E.E.
+    </div>
+
+    <div class="system">
+        AUDIO ARCHIVE // MANAGEMENT
+    </div>
+
+</header>
+
+
+<main>
+
+
+    <section class="panel">
+
+        <div class="label">
+            ARCHIVE ACCESS
+        </div>
+
+        <h1>
+            FACTORY AUDIO RECORDS
+        </h1>
+
+        <p>
+            Selected audio recovered from HEE observation
+            equipment.
+        </p>
+
+        <div class="notice">
+
+            WARNING:
+
+            <br><br>
+
+            Some recordings contain unidentified sounds.
+
+            <br><br>
+
+            HEE has not determined whether these sounds
+            originate from personnel, machinery, or the
+            Factory itself.
+
+        </div>
+
+    </section>
+
+
+
+    <!-- AUDIO 01 -->
+
+    <section class="panel">
+
+        <div class="label">
+            AUDIO RECORD // 01
+        </div>
+
+        <h2>
+            PERIMETER RECORDING
+        </h2>
+
+        <div class="audio-entry">
+
+            <div class="audio-header">
+
+                <span>
+                    RECORD: A-01
+                </span>
+
+                <span>
+                    STATUS: PARTIAL
+                </span>
+
+            </div>
+
+
+            <div class="audio-placeholder">
+
+                AUDIO FILE NOT YET ATTACHED
+
+            </div>
+
+
+            <!--
+            When you make the audio file,
+            put it in the same folder and change
+            "audio01.mp3" to your filename.
+
+            Then remove the placeholder above
+            and use this:
+
+            <audio controls>
+                <source src="audio01.mp3" type="audio/mpeg">
+            </audio>
+            -->
+
+
+            <div class="transcript">
+
+                <div class="transcript-title">
+                    PARTIAL TRANSCRIPT
+                </div>
+
+
+                <div class="line">
+
+                    <span class="speaker">
+                        [00:00]
+                    </span>
+
+                    Exterior microphone activated.
+
+                </div>
+
+
+                <div class="line">
+
+                    <span class="speaker">
+                        [00:17]
+                    </span>
+
+                    Wind noise.
+
+                </div>
+
+
+                <div class="line">
+
+                    <span class="speaker">
+                        [00:41]
+                    </span>
+
+                    <span class="static">
+                        [STATIC]
+                    </span>
+
+                </div>
+
+
+                <div class="line">
+
+                    <span class="speaker">
+                        [00:46]
+                    </span>
+
+                    Unidentified sound detected.
+
+                </div>
+
+
+                <div class="line">
+
+                    <span class="speaker">
+                        [01:02]
+                    </span>
+
+                    Recording terminated.
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- AUDIO 02 -->
+
+    <section class="panel">
+
+        <div class="label">
+            AUDIO RECORD // 02
+        </div>
+
+        <h2>
+            INTERIOR RECORDING
+        </h2>
+
+        <div class="audio-entry">
+
+            <div class="audio-header">
+
+                <span>
+                    RECORD: B-17
+                </span>
+
+                <span>
+                    STATUS: RESTRICTED
+                </span>
+
+            </div>
+
+
+            <div class="audio-placeholder">
+
+                AUDIO FILE NOT YET ATTACHED
+
+            </div>
+
+
+            <div class="transcript">
+
+                <div class="transcript-title">
+                    TRANSCRIPT
+                </div>
+
+
+                <div class="line">
+
+                    <span class="speaker">
+                        [00:03]
+                    </span>
+
+                    Microphone activated.
+
+                </div>
+
+
+                <div class="line">
+
+                    <span class="speaker">
+                        [00:19]
+                    </span>
+
+                    Footsteps detected.
+
+                </div>
+
+
+                <div class="line">
+
+                    <span class="speaker">
+                        [00:27]
+                    </span>
+
+                    <span class="redacted">
+                        SUBJECT IDENTIFICATION
+                    </span>
+
+                </div>
+
+
+                <div class="line">
+
+                    <span class="speaker">
+                        [00:39]
+                    </span>
+
+                    Unidentified voice.
+
+                </div>
+
+
+                <div class="line">
+
+                    <span class="speaker">
+                        [00:41]
+                    </span>
+
+                    "Don't—"
+
+                </div>
+
+
+                <div class="line">
+
+                    <span class="speaker">
+                        [00:42]
+                    </span>
+
+                    <span class="static">
+                        [RECORDING DISTORTION]
+                    </span>
+
+                </div>
+
+
+                <div class="line">
+
+                    <span class="speaker">
+                        [01:04]
+                    </span>
+
+                    Repeated laughter detected.
+
+                </div>
+
+
+                <div class="line">
+
+                    <span class="speaker">
+                        [01:09]
+                    </span>
+
+                    Recording terminated.
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- AUDIO 03 -->
+
+    <section class="panel">
+
+        <div class="label">
+            AUDIO RECORD // 03
+        </div>
+
+        <h2>
+            POST-PRODUCTION RECORDING
+        </h2>
+
+        <div class="audio-entry">
+
+            <div class="audio-header">
+
+                <span>
+                    RECORD: C-04
+                </span>
+
+                <span>
+                    STATUS: INCOMPLETE
+                </span>
+
+            </div>
+
+
+            <div class="audio-placeholder">
+
+                AUDIO FILE NOT YET ATTACHED
+
+            </div>
+
+
+            <div class="transcript">
+
+                <div class="transcript-title">
+                    TRANSCRIPT
+                </div>
+
+
+                <div class="line">
+
+                    <span class="speaker">
+                        [00:00]
+                    </span>
+
+                    Production area microphone activated.
+
+                </div>
+
+
+                <div class="line">
+
+                    <span class="speaker">
+                        [00:12]
+                    </span>
+
+                    Machinery noise.
+
+                </div>
+
+
+                <div class="line">
+
+                    <span class="speaker">
+                        [00:34]
+                    </span>
+
+                    Machinery stops.
+
+                </div>
+
+
+                <div class="line">
+
+                    <span class="speaker">
+                        [00:38]
+                    </span>
+
+                    Silence.
+
+                </div>
+
+
+                <div class="line">
+
+                    <span class="speaker">
+                        [00:51]
+                    </span>
+
+                    Product movement detected.
+
+                </div>
+
+
+                <div class="line">
+
+                    <span class="speaker">
+                        [00:53]
+                    </span>
+
+                    No visible production equipment
+                    identified.
+
+                </div>
+
+
+                <div class="line">
+
+                    <span class="speaker">
+                        [01:10]
+                    </span>
+
+                    <span class="static">
+                        [UNKNOWN AUDIO]
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- SUMMARY -->
+
+    <section class="panel">
+
+        <div class="label">
+            AUDIO ANALYSIS
+        </div>
+
+        <h2>
+            ARCHIVE CONCLUSION
+        </h2>
+
+
+        <div class="record">
+
+            <div class="record-line">
+
+                <span>
+                    NORMAL MACHINERY
+                </span>
+
+                <span>
+                    INCONSISTENT
+                </span>
+
+            </div>
+
+
+            <div class="record-line">
+
+                <span>
+                    HUMAN VOICES
+                </span>
+
+                <span>
+                    CONFIRMED
+                </span>
+
+            </div>
+
+
+            <div class="record-line">
+
+                <span>
+                    LAUGHTER
+                </span>
+
+                <span>
+                    CONFIRMED
+                </span>
+
+            </div>
+
+
+            <div class="record-line">
+
+                <span>
+                    PRODUCTION SOUNDS
+                </span>
+
+                <span>
+                    CONFIRMED
+                </span>
+
+            </div>
+
+
+            <div class="record-line">
+
+                <span>
+                    PRODUCTION MECHANISM
+                </span>
+
+                <span>
+                    UNKNOWN
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <div class="warning">
+
+            HEE MANAGEMENT HAS determined that further
+            investigation into the source of the sounds
+            provides no operational benefit.
+
+            <br><br>
+
+            Archive remains available for authorized personnel.
+
+        </div>
+
+    </section>
+
+
+</main>
+
+
+<footer>
+
+    H.E.E. AUDIO ARCHIVE
+
+    <br>
+
+    MANAGEMENT CLEARANCE REQUIRED
+
+</footer>
+
+
+</body>
+  </html>
