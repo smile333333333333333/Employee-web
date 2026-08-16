@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HEE — Observer Access</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background: #080b0c;
+            color: #d8dddd;
+            font-family: "Courier New", monospace;
+        }
+
+        .header {
+            border-bottom: 1px solid #394143;
+            padding: 18px 25px;
+            background: #0d1112;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: bold;
+            letter-spacing: 5px;
+        }
+
+        .system {
+            color: #788184;
+            font-size: 10px;
+            letter-spacing: 1px;
+        }
+
+        .container {
+            width: min(900px, 92%);
+            margin: 45px auto;
+        }
+
+        .panel {
+            background: #0c1011;
+            border: 1px solid #30383a;
+            padding: 25px;
+            margin-bottom: 20px;
+        }
+
+        .label {
+            color: #737d7f;
+            font-size: 10px;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+        }
+
+        h1 {
+            font-size: 23px;
+            font-weight: normal;
+            letter-spacing: 2px;
+            margin: 0 0 15px;
+        }
+
+        p {
+            color: #aeb6b8;
+            line-height: 1.7;
+        }
+
+        .login {
+            text-align: center;
+        }
+
+        .keypad {
+            width: 240px;
+            margin: 25px auto;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+        }
+
+        .key {
+            height: 55px;
+            border: 1px solid #394143;
+            background: #111718;
+            color: #cbd1d2;
+            font-family: "Courier New", monospace;
+            font-size: 18px;
+            cursor: pointer;
+        }
+
+        .key:hover {
+            background: #1a2021;
+        }
+
+        .display {
+            width: 240px;
+            height: 45px;
+            margin: 0 auto 15px;
+            border: 1px solid #394143;
+            background: #070909;
+            color: #e0e4e4;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            letter-spacing: 7px;
+            font-size: 18px;
+        }
+
+        .clear {
+            width: 240px;
+            height: 38px;
+            background: #0b0f10;
+            border: 1px solid #30383a;
+            color: #858e90;
+            font-family: "Courier New", monospace;
+            cursor: pointer;
+        }
+
+        .clear:hover {
+            background: #151a1b;
+        }
+
+        .message {
+            min-height: 22px;
+            margin-top: 18px;
+            font-size: 11px;
+            letter-spacing: 1px;
+        }
+
+        .denied {
+            color: #858d8f;
+        }
+
+        .granted {
+            color: #d7dddd;
+        }
+
+        .access-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .access {
+            border: 1px solid #292f31;
+            background: #0b0f10;
+            padding: 15px;
+        }
+
+        .access span {
+            display: block;
+            color: #687174;
+            font-size: 9px;
+            margin-bottom: 8px;
+            letter-spacing: 1px;
+        }
+
+        .access strong {
+            font-size: 12px;
+            font-weight: normal;
+            color: #bbc2c3;
+        }
+
+        .mail {
+            border: 1px solid #454d4f;
+            padding: 22px;
+            background: #111718;
+        }
+
+        .mail-title {
+            color: #7f898b;
+            font-size: 10px;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+        }
+
+        .location {
+            color: #eef1f1;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        .next {
+            display: none;
+            margin-top: 25px;
+            padding: 18px;
+            border: 1px solid #394143;
+            background: #0e1314;
+        }
+
+        .next a {
+            display: inline-block;
+            margin-top: 12px;
+            padding: 12px 18px;
+            border: 1px solid #596264;
+            color: #d8dddd;
+            text-decoration: none;
+            font-size: 11px;
+            letter-spacing: 1px;
+        }
+
+        .next a:hover {
+            background: #1a2021;
+        }
+
+        .footer {
+            text-align: center;
+            color: #444d4f;
+            font-size: 10px;
+            letter-spacing: 1px;
+            padding-bottom: 30px;
+        }
+
+        @media (max-width: 600px) {
+            .header {
+                padding: 15px;
+            }
+
+            .logo {
+                font-size: 20px;
+            }
+
+            .system {
+                font-size: 8px;
+            }
+
+            .container {
+                margin-top: 25px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header class="header">
+    <div class="logo">H.E.E.</div>
+    <div class="system">INTERNAL ACCOUNT SYSTEM</div>
+</header>
+
+<main class="container">
+
+    <section class="panel login">
+
+        <div class="label">CLEARANCE VERIFICATION // 002</div>
+
+        <h1>OBSERVER ACCESS</h1>
+
+        <p>
+            Enter your four-digit HEE clearance code.
+        </p>
+
+        <div class="display" id="display">----</div>
+
+        <div class="keypad">
+            <button class="key" onclick="press(1)">1</button>
+            <button class="key" onclick="press(2)">2</button>
+            <button class="key" onclick="press(3)">3</button>
+
+            <button class="key" onclick="press(4)">4</button>
+            <button class="key" onclick="press(5)">5</button>
+            <button class="key" onclick="press(6)">6</button>
+
+            <button class="key" onclick="press(7)">7</button>
+            <button class="key" onclick="press(8)">8</button>
+            <button class="key" onclick="press(9)">9</button>
+
+            <button class="key" onclick="press(0)">0</button>
+        </div>
+
+        <button class="clear" onclick="clearCode()">CLEAR</button>
+
+        <div class="message" id="message"></div>
+
+        <div class="next" id="next">
+            <div class="label">CLEARANCE VERIFIED</div>
+
+            <p>
+                Observer status has been granted.
+            </p>
+
+            <p>
+                Additional HEE resources are now available.
+            </p>
+
+            <a href="research.html">CONTINUE TO RESEARCH ACCESS</a>
+        </div>
+
+    </section>
+
+
+    <section class="panel">
+
+        <div class="label">CURRENT ACCOUNT STATUS</div>
+
+        <h1>OBSERVER</h1>
+
+        <div class="access-grid">
+
+            <div class="access">
+                <span>ACCESS 01</span>
+                <strong>EMPLOYEE DIRECTORY</strong>
+            </div>
+
+            <div class="access">
+                <span>ACCESS 02</span>
+                <strong>BASIC HEE NOTICES</strong>
+            </div>
+
+            <div class="access">
+                <span>ACCESS 03</span>
+                <strong>ACCOUNT HISTORY</strong>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <section class="mail">
+
+        <div class="mail-title">
+            HEE MAIL ROUTING // OBSERVER DELIVERY
+        </div>
+
+        <div class="location">
+            YOUR MAIL SHOULD BE HERE:
+            <br><br>
+            <strong>INSIDE YOUR HOME UNDERNEATH THE BED</strong>
+        </div>
+
+    </section>
+
+</main>
+
+<footer class="footer">
+    H.E.E. INTERNAL SYSTEM
+    <br>
+    ACCESS IS MONITORED
+</footer>
+
+
+<script>
+    let enteredCode = "";
+
+    const correctCode = "5827";
+
+    function press(number) {
+
+        if (enteredCode.length >= 4) {
+            return;
+        }
+
+        enteredCode += number;
+
+        updateDisplay();
+
+        if (enteredCode.length === 4) {
+            checkCode();
+        }
+    }
+
+    function updateDisplay() {
+
+        let output = "";
+
+        for (let i = 0; i < enteredCode.length; i++) {
+            output += "•";
+        }
+
+        while (output.length < 4) {
+            output += "-";
+        }
+
+        document.getElementById("display").textContent = output;
+    }
+
+    function checkCode() {
+
+        const message = document.getElementById("message");
+        const next = document.getElementById("next");
+
+        if (enteredCode === correctCode) {
+
+            message.textContent = "CLEARANCE VERIFIED";
+            message.className = "message granted";
+
+            next.style.display = "block";
+
+        } else {
+
+            message.textContent = "ACCESS DENIED";
+            message.className = "message denied";
+
+            setTimeout(function() {
+                clearCode();
+            }, 900);
+        }
+    }
+
+    function clearCode() {
+
+        enteredCode = "";
+
+        document.getElementById("display").textContent = "----";
+        document.getElementById("message").textContent = "";
+        document.getElementById("next").style.display = "none";
+    }
+</script>
+
+</body>
+</html>
