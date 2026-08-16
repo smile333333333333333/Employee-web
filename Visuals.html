@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>HEE — Visual Archive</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: #070a0b;
+            color: #d8dddd;
+            font-family: "Courier New", monospace;
+        }
+
+        header {
+            border-bottom: 1px solid #394143;
+            padding: 18px 25px;
+            background: #0c1011;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: bold;
+            letter-spacing: 5px;
+        }
+
+        .system {
+            color: #788184;
+            font-size: 10px;
+            letter-spacing: 1px;
+        }
+
+        main {
+            width: min(950px, 92%);
+            margin: 45px auto;
+        }
+
+        .panel {
+            background: #0b0f10;
+            border: 1px solid #30383a;
+            padding: 25px;
+            margin-bottom: 20px;
+        }
+
+        .label {
+            color: #737d7f;
+            font-size: 10px;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+        }
+
+        h1 {
+            font-size: 23px;
+            font-weight: normal;
+            letter-spacing: 2px;
+            margin: 0 0 15px;
+        }
+
+        h2 {
+            font-size: 14px;
+            font-weight: normal;
+            color: #c2c9ca;
+            letter-spacing: 1px;
+        }
+
+        p {
+            color: #aeb6b8;
+            line-height: 1.7;
+        }
+
+        .notice {
+            border-left: 2px solid #555f61;
+            padding-left: 15px;
+            color: #929b9d;
+            font-size: 11px;
+            line-height: 1.7;
+        }
+
+        .image-box {
+            height: 280px;
+            margin-top: 20px;
+            border: 1px solid #343c3e;
+            background:
+                linear-gradient(
+                    90deg,
+                    transparent 49%,
+                    #1c2325 50%,
+                    transparent 51%
+                ),
+                linear-gradient(
+                    0deg,
+                    transparent 49%,
+                    #1c2325 50%,
+                    transparent 51%
+                ),
+                #080c0d;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            color: #4f595b;
+            font-size: 11px;
+            letter-spacing: 2px;
+        }
+
+        .image-box span {
+            border: 1px solid #30383a;
+            padding: 15px;
+            background: #080c0d;
+        }
+
+        .caption {
+            color: #697274;
+            font-size: 10px;
+            line-height: 1.6;
+            margin-top: 10px;
+        }
+
+        .record {
+            margin-top: 20px;
+            border: 1px solid #292f31;
+            background: #080c0d;
+            padding: 18px;
+        }
+
+        .record-line {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            border-bottom: 1px solid #171d1e;
+            padding: 11px 0;
+            font-size: 11px;
+        }
+
+        .record-line:last-child {
+            border-bottom: none;
+        }
+
+        .record-line span:first-child {
+            color: #6f797b;
+        }
+
+        .record-line span:last-child {
+            color: #c3c9ca;
+            text-align: right;
+        }
+
+        .footer {
+            text-align: center;
+            color: #444d4f;
+            font-size: 10px;
+            letter-spacing: 1px;
+            padding: 30px;
+        }
+
+        @media (max-width: 600px) {
+
+            header {
+                padding: 15px;
+            }
+
+            .logo {
+                font-size: 20px;
+            }
+
+            .system {
+                font-size: 8px;
+            }
+
+            main {
+                margin-top: 25px;
+            }
+
+            .record-line {
+                display: block;
+            }
+
+            .record-line span:last-child {
+                display: block;
+                text-align: left;
+                margin-top: 5px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+
+    <div class="logo">
+        H.E.E.
+    </div>
+
+    <div class="system">
+        VISUAL ARCHIVE // MANAGEMENT
+    </div>
+
+</header>
+
+
+<main>
+
+
+    <section class="panel">
+
+        <div class="label">
+            ARCHIVE ACCESS
+        </div>
+
+        <h1>
+            FACTORY VISUAL RECORDS
+        </h1>
+
+        <p>
+            This archive contains selected visual records
+            recovered from HEE observation equipment.
+        </p>
+
+        <div class="notice">
+
+            Several records have been removed from the archive.
+
+            <br><br>
+
+            The remaining images have been retained because
+            they are considered operationally insignificant.
+
+        </div>
+
+    </section>
+
+
+
+    <section class="panel">
+
+        <div class="label">
+            VISUAL RECORD // 01
+        </div>
+
+        <h2>
+            FACTORY EXTERIOR
+        </h2>
+
+        <div class="image-box">
+            <span>
+                IMAGE DATA UNAVAILABLE
+            </span>
+        </div>
+
+        <div class="caption">
+
+            RECORD DATE: UNKNOWN
+
+            <br>
+
+            Camera position: Exterior perimeter.
+
+            <br>
+
+            Observation: Structure appears inactive.
+
+            <br>
+
+            Note: Interior production was confirmed
+            during this observation period.
+
+        </div>
+
+    </section>
+
+
+
+    <section class="panel">
+
+        <div class="label">
+            VISUAL RECORD // 02
+        </div>
+
+        <h2>
+            INTERIOR CORRIDOR
+        </h2>
+
+        <div class="image-box">
+            <span>
+                IMAGE CORRUPTED
+            </span>
+        </div>
+
+        <div class="caption">
+
+            RECORD DATE: [REDACTED]
+
+            <br>
+
+            Camera position: Interior.
+
+            <br>
+
+            Observation: Corridor contains no identifiable
+            manufacturing equipment.
+
+            <br>
+
+            Audio recorded simultaneously.
+
+        </div>
+
+    </section>
+
+
+
+    <section class="panel">
+
+        <div class="label">
+            VISUAL RECORD // 03
+        </div>
+
+        <h2>
+            PERSONNEL OBSERVATION
+        </h2>
+
+        <div class="image-box">
+            <span>
+                RECORD REMOVED
+            </span>
+        </div>
+
+        <div class="caption">
+
+            RECORD DATE: [REDACTED]
+
+            <br>
+
+            Subject entered Factory.
+
+            <br>
+
+            Subject did not return.
+
+            <br>
+
+            Subsequent inventory increase was recorded
+            the following morning.
+
+        </div>
+
+    </section>
+
+
+
+    <section class="panel">
+
+        <div class="label">
+            VISUAL RECORD // 04
+        </div>
+
+        <h2>
+            MORNING PRODUCTION
+        </h2>
+
+        <div class="image-box">
+            <span>
+                IMAGE DATA UNAVAILABLE
+            </span>
+        </div>
+
+        <div class="caption">
+
+            RECORD DATE: UNKNOWN
+
+            <br>
+
+            Production was observed immediately following
+            personnel transfer.
+
+            <br>
+
+            Exact manufacturing process remains unknown.
+
+        </div>
+
+    </section>
+
+
+
+    <section class="panel">
+
+        <div class="label">
+            ARCHIVE SUMMARY
+        </div>
+
+        <h2>
+            WHAT WE KNOW
+        </h2>
+
+        <div class="record">
+
+            <div class="record-line">
+                <span>
+                    FACTORY EXISTS
+                </span>
+
+                <span>
+                    CONFIRMED
+                </span>
+            </div>
+
+            <div class="record-line">
+                <span>
+                    FACTORY PRODUCES PRODUCTS
+                </span>
+
+                <span>
+                    CONFIRMED
+                </span>
+            </div>
+
+            <div class="record-line">
+                <span>
+                    PERSONNEL ENTER FACTORY
+                </span>
+
+                <span>
+                    CONFIRMED
+                </span>
+            </div>
+
+            <div class="record-line">
+                <span>
+                    PERSONNEL RETURN
+                </span>
+
+                <span>
+                    NO
+                </span>
+            </div>
+
+            <div class="record-line">
+                <span>
+                    PRODUCTION FOLLOWS TRANSFERS
+                </span>
+
+                <span>
+                    CONFIRMED
+                </span>
+            </div>
+
+            <div class="record-line">
+                <span>
+                    PRODUCTION PROCESS
+                </span>
+
+                <span>
+                    UNKNOWN
+                </span>
+            </div>
+
+        </div>
+
+    </section>
+
+
+</main>
+
+
+<footer class="footer">
+
+    H.E.E. VISUAL ARCHIVE
+
+    <br>
+
+    MANAGEMENT CLEARANCE REQUIRED
+
+</footer>
+
+</body>
+      </html>
