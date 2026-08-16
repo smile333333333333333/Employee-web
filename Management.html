@@ -1,0 +1,953 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>HEE — Management Access</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background: #070a0b;
+            color: #d8dddd;
+            font-family: "Courier New", monospace;
+        }
+
+        .header {
+            border-bottom: 1px solid #394143;
+            padding: 18px 25px;
+            background: #0c1011;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: bold;
+            letter-spacing: 5px;
+        }
+
+        .system {
+            color: #788184;
+            font-size: 10px;
+            letter-spacing: 1px;
+        }
+
+        .container {
+            width: min(950px, 92%);
+            margin: 45px auto;
+        }
+
+        .panel {
+            background: #0b0f10;
+            border: 1px solid #30383a;
+            padding: 25px;
+            margin-bottom: 20px;
+        }
+
+        .label {
+            color: #737d7f;
+            font-size: 10px;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+        }
+
+        h1 {
+            font-size: 23px;
+            font-weight: normal;
+            letter-spacing: 2px;
+            margin: 0 0 15px;
+        }
+
+        h2 {
+            font-size: 15px;
+            font-weight: normal;
+            letter-spacing: 1px;
+            color: #c2c9ca;
+        }
+
+        p {
+            color: #aeb6b8;
+            line-height: 1.7;
+        }
+
+        .login {
+            text-align: center;
+        }
+
+        .display {
+            width: 240px;
+            height: 45px;
+
+            margin: 20px auto 15px;
+
+            border: 1px solid #394143;
+            background: #070909;
+
+            color: #e0e4e4;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            letter-spacing: 7px;
+            font-size: 18px;
+        }
+
+        .keypad {
+            width: 240px;
+
+            margin: 0 auto 10px;
+
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+
+            gap: 8px;
+        }
+
+        .key {
+            height: 55px;
+
+            border: 1px solid #394143;
+            background: #111718;
+
+            color: #cbd1d2;
+
+            font-family: "Courier New", monospace;
+            font-size: 18px;
+
+            cursor: pointer;
+        }
+
+        .key:hover {
+            background: #1a2021;
+        }
+
+        .clear {
+            width: 240px;
+            height: 38px;
+
+            background: #0b0f10;
+
+            border: 1px solid #30383a;
+
+            color: #858e90;
+
+            font-family: "Courier New", monospace;
+
+            cursor: pointer;
+        }
+
+        .clear:hover {
+            background: #151a1b;
+        }
+
+        .message {
+            min-height: 22px;
+
+            margin-top: 18px;
+
+            font-size: 11px;
+            letter-spacing: 1px;
+        }
+
+        .denied {
+            color: #858d8f;
+        }
+
+        .granted {
+            color: #d7dddd;
+        }
+
+        .access-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(auto-fit, minmax(210px, 1fr));
+
+            gap: 10px;
+
+            margin-top: 20px;
+        }
+
+        .access {
+            border: 1px solid #292f31;
+
+            background: #0b0f10;
+
+            padding: 16px;
+        }
+
+        .access span {
+            display: block;
+
+            color: #687174;
+
+            font-size: 9px;
+
+            margin-bottom: 8px;
+
+            letter-spacing: 1px;
+        }
+
+        .access strong {
+            font-size: 12px;
+
+            font-weight: normal;
+
+            color: #bbc2c3;
+        }
+
+        .reveal {
+            border: 1px solid #3c4547;
+
+            background: #0d1213;
+
+            padding: 22px;
+
+            margin-top: 20px;
+        }
+
+        .reveal-title {
+            color: #cbd1d2;
+
+            font-size: 13px;
+
+            letter-spacing: 2px;
+
+            margin-bottom: 18px;
+        }
+
+        .reveal p {
+            font-size: 12px;
+        }
+
+        .record {
+            margin-top: 20px;
+
+            border: 1px solid #292f31;
+
+            background: #080c0d;
+
+            padding: 18px;
+        }
+
+        .record-header {
+            border-bottom: 1px solid #252b2d;
+
+            padding-bottom: 12px;
+
+            margin-bottom: 15px;
+
+            color: #7b8587;
+
+            font-size: 10px;
+
+            letter-spacing: 1px;
+        }
+
+        .record-line {
+            display: flex;
+
+            justify-content: space-between;
+
+            gap: 20px;
+
+            border-bottom: 1px solid #171d1e;
+
+            padding: 11px 0;
+
+            font-size: 11px;
+        }
+
+        .record-line:last-child {
+            border-bottom: none;
+        }
+
+        .record-line span:first-child {
+            color: #6f797b;
+        }
+
+        .record-line span:last-child {
+            color: #c3c9ca;
+
+            text-align: right;
+        }
+
+        .important {
+            margin-top: 22px;
+
+            border-left: 2px solid #5a6466;
+
+            padding-left: 15px;
+
+            color: #c3c9ca;
+
+            font-size: 12px;
+
+            line-height: 1.9;
+        }
+
+        .unknown {
+            margin-top: 20px;
+
+            padding: 18px;
+
+            border: 1px dashed #343c3e;
+
+            color: #838d8f;
+
+            font-size: 11px;
+
+            line-height: 1.8;
+        }
+
+        .next {
+            display: none;
+
+            margin-top: 25px;
+
+            padding: 18px;
+
+            border: 1px solid #394143;
+
+            background: #0e1314;
+        }
+
+        .next a {
+            display: inline-block;
+
+            margin-top: 12px;
+
+            padding: 12px 18px;
+
+            border: 1px solid #596264;
+
+            color: #d8dddd;
+
+            text-decoration: none;
+
+            font-size: 11px;
+
+            letter-spacing: 1px;
+        }
+
+        .next a:hover {
+            background: #1a2021;
+        }
+
+        .mail {
+            border: 1px solid #454d4f;
+
+            padding: 22px;
+
+            background: #111718;
+        }
+
+        .mail-title {
+            color: #7f898b;
+
+            font-size: 10px;
+
+            letter-spacing: 2px;
+
+            margin-bottom: 15px;
+        }
+
+        .location {
+            color: #eef1f1;
+
+            font-size: 16px;
+
+            line-height: 1.6;
+        }
+
+        .footer {
+            text-align: center;
+
+            color: #444d4f;
+
+            font-size: 10px;
+
+            letter-spacing: 1px;
+
+            padding-bottom: 30px;
+        }
+
+        @media (max-width: 600px) {
+
+            .header {
+                padding: 15px;
+            }
+
+            .logo {
+                font-size: 20px;
+            }
+
+            .system {
+                font-size: 8px;
+            }
+
+            .container {
+                margin-top: 25px;
+            }
+
+            .record-line {
+                display: block;
+            }
+
+            .record-line span:last-child {
+                display: block;
+
+                text-align: left;
+
+                margin-top: 5px;
+            }
+        }
+    </style>
+</head>
+
+
+<body>
+
+
+<header class="header">
+
+    <div class="logo">
+        H.E.E.
+    </div>
+
+    <div class="system">
+        INTERNAL ACCOUNT SYSTEM
+    </div>
+
+</header>
+
+
+<main class="container">
+
+
+    <!-- LOGIN -->
+
+    <section class="panel login">
+
+        <div class="label">
+            CLEARANCE VERIFICATION // 007
+        </div>
+
+        <h1>
+            MANAGEMENT ACCESS
+        </h1>
+
+        <p>
+            Enter your four-digit HEE clearance code.
+        </p>
+
+
+        <div class="display" id="display">
+            ----
+        </div>
+
+
+        <div class="keypad">
+
+            <button class="key" onclick="press(1)">1</button>
+            <button class="key" onclick="press(2)">2</button>
+            <button class="key" onclick="press(3)">3</button>
+
+            <button class="key" onclick="press(4)">4</button>
+            <button class="key" onclick="press(5)">5</button>
+            <button class="key" onclick="press(6)">6</button>
+
+            <button class="key" onclick="press(7)">7</button>
+            <button class="key" onclick="press(8)">8</button>
+            <button class="key" onclick="press(9)">9</button>
+
+            <button class="key" onclick="press(0)">0</button>
+
+        </div>
+
+
+        <button class="clear" onclick="clearCode()">
+            CLEAR
+        </button>
+
+
+        <div class="message" id="message"></div>
+
+
+        <div class="next" id="next">
+
+            <div class="label">
+                CLEARANCE VERIFIED
+            </div>
+
+            <p>
+                Management status has been granted.
+            </p>
+
+            <p>
+                Executive operational records are now available.
+            </p>
+
+            <a href="visuals.html">
+                CONTINUE TO VISUAL ARCHIVE
+            </a>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- STATUS -->
+
+    <section class="panel">
+
+        <div class="label">
+            CURRENT ACCOUNT STATUS
+        </div>
+
+        <h1>
+            MANAGEMENT
+        </h1>
+
+
+        <div class="access-grid">
+
+            <div class="access">
+                <span>ACCESS 01</span>
+                <strong>
+                    EXECUTIVE RECORDS
+                </strong>
+            </div>
+
+            <div class="access">
+                <span>ACCESS 02</span>
+                <strong>
+                    FACTORY OUTPUT
+                </strong>
+            </div>
+
+            <div class="access">
+                <span>ACCESS 03</span>
+                <strong>
+                    PERSONNEL ALLOCATION
+                </strong>
+            </div>
+
+            <div class="access">
+                <span>ACCESS 04</span>
+                <strong>
+                    CORPORATE DIRECTIVES
+                </strong>
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- MAIN REVEAL -->
+
+    <section class="panel">
+
+        <div class="label">
+            EXECUTIVE DIRECTIVE // 01
+        </div>
+
+        <h2>
+            FACTORY OPERATIONS
+        </h2>
+
+
+        <div class="reveal">
+
+            <div class="reveal-title">
+                INTERNAL USE ONLY
+            </div>
+
+
+            <p>
+                The Factory is not considered a conventional
+                research site.
+            </p>
+
+
+            <p>
+                Its internal processes remain unexplained.
+                Continued investigation has failed to establish
+                a reliable cause, origin, or mechanism.
+            </p>
+
+
+            <p>
+                Further explanation is therefore considered
+                unnecessary for operational purposes.
+            </p>
+
+
+            <p>
+                HEE's responsibility is not to understand the
+                Factory.
+            </p>
+
+
+            <p>
+                HEE's responsibility is to maintain its output.
+            </p>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- PERSONNEL -->
+
+    <section class="panel">
+
+        <div class="label">
+            PERSONNEL ALLOCATION // EXECUTIVE
+        </div>
+
+        <h2>
+            RESOURCE MAINTENANCE
+        </h2>
+
+
+        <div class="record">
+
+            <div class="record-header">
+                CURRENT OPERATIONAL CYCLE
+            </div>
+
+
+            <div class="record-line">
+
+                <span>
+                    PERSONNEL ASSIGNED
+                </span>
+
+                <span>
+                    12
+                </span>
+
+            </div>
+
+
+            <div class="record-line">
+
+                <span>
+                    EXPECTED FACTORY RETURN
+                </span>
+
+                <span>
+                    0
+                </span>
+
+            </div>
+
+
+            <div class="record-line">
+
+                <span>
+                    EXPECTED PRODUCT INCREASE
+                </span>
+
+                <span>
+                    12
+                </span>
+
+            </div>
+
+
+            <div class="record-line">
+
+                <span>
+                    NEXT ASSIGNMENT
+                </span>
+
+                <span>
+                    REQUIRED
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <div class="important">
+
+            Employees assigned to Factory operations are to be
+            considered operational resources.
+
+            <br><br>
+
+            Replacement personnel must be scheduled before
+            inventory levels decline.
+
+        </div>
+
+    </section>
+
+
+
+    <!-- SMILING -->
+
+    <section class="panel">
+
+        <div class="label">
+            BEHAVIORAL OBSERVATION // RESTRICTED
+        </div>
+
+        <h2>
+            SMILING RESPONSE
+        </h2>
+
+
+        <p>
+            The smiling response has been observed in personnel
+            exposed to the Factory.
+        </p>
+
+
+        <p>
+            HEE has been unable to determine whether the response
+            is a symptom, a reaction, or a requirement of the
+            Factory's internal process.
+        </p>
+
+
+        <p>
+            No corrective procedure has been approved.
+        </p>
+
+
+        <div class="unknown">
+
+            IMPORTANT:
+
+            <br><br>
+
+            Do not attempt to determine why affected personnel
+            smile.
+
+            <br><br>
+
+            Previous investigations produced no useful result.
+
+            <br><br>
+
+            Continue production.
+
+        </div>
+
+    </section>
+
+
+
+    <!-- BIG QUESTION -->
+
+    <section class="panel">
+
+        <div class="label">
+            EXECUTIVE NOTE
+        </div>
+
+        <h2>
+            WHAT IS THE FACTORY?
+        </h2>
+
+
+        <p>
+            No answer is available.
+        </p>
+
+
+        <p>
+            No confirmed origin has been established.
+        </p>
+
+
+        <p>
+            No confirmed purpose has been established.
+        </p>
+
+
+        <p>
+            No confirmed explanation for its behavior has been
+            established.
+        </p>
+
+
+        <p>
+            This information has not affected production.
+        </p>
+
+
+        <div class="important">
+
+            HEE does not require an explanation.
+
+            <br><br>
+
+            HEE requires output.
+
+        </div>
+
+    </section>
+
+
+</main>
+
+
+
+<footer class="footer">
+
+    H.E.E. INTERNAL SYSTEM
+
+    <br>
+
+    ACCESS IS MONITORED
+
+</footer>
+
+
+
+<script>
+
+    let enteredCode = "";
+
+    const correctCode = "1782";
+
+
+    function press(number) {
+
+        if (enteredCode.length >= 4) {
+            return;
+        }
+
+
+        enteredCode += number;
+
+
+        updateDisplay();
+
+
+        if (enteredCode.length === 4) {
+
+            checkCode();
+
+        }
+
+    }
+
+
+
+    function updateDisplay() {
+
+        let output = "";
+
+
+        for (
+            let i = 0;
+            i < enteredCode.length;
+            i++
+        ) {
+
+            output += "•";
+
+        }
+
+
+        while (output.length < 4) {
+
+            output += "-";
+
+        }
+
+
+        document.getElementById("display").textContent =
+            output;
+
+    }
+
+
+
+    function checkCode() {
+
+        const message =
+            document.getElementById("message");
+
+        const next =
+            document.getElementById("next");
+
+
+        if (enteredCode === correctCode) {
+
+            message.textContent =
+                "CLEARANCE VERIFIED";
+
+            message.className =
+                "message granted";
+
+
+            next.style.display =
+                "block";
+
+        }
+
+        else {
+
+            message.textContent =
+                "ACCESS DENIED";
+
+            message.className =
+                "message denied";
+
+
+            setTimeout(function() {
+
+                clearCode();
+
+            }, 900);
+
+        }
+
+    }
+
+
+
+    function clearCode() {
+
+        enteredCode = "";
+
+
+        document.getElementById("display").textContent =
+            "----";
+
+
+        document.getElementById("message").textContent =
+            "";
+
+
+        document.getElementById("next").style.display =
+            "none";
+
+    }
+
+</script>
+
+
+</body>
+  </html>
